@@ -1,0 +1,255 @@
+<html>
+
+<head>
+    <link rel='stylesheet' href='css/main.css' type='text/css'>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' href='css/bootstrap.min.css'>
+    <link href='js/jquery.bootgrid.css' rel='stylesheet'>
+    <script src='js/jquery-3.1.1.js'></script>
+    <script src='js/jquery.slimscroll.js'></script>
+    <script src='js/angular.js'></script>
+    <script src='js/angular-route.min.js'></script>
+    <script src='js/ui-bootstrap-tpls-1.1.1.min.js'></script>
+    <script src='js/bootstrap-3.3.7.js'>
+    </script>
+    <script src='cjs/email.js'></script>
+    <style type='text/css'>
+        #footer {
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            text-align: center;
+            height: 20px;
+            background: #E6E4E4;
+        }
+        
+        .input-group .icon-addon .form-control {
+            border-radius: 0;
+        }
+        .icon-addon {
+            position: relative;
+            color: #555;
+            display: block;
+        }
+        
+        .icon-addon:after,
+        .icon-addon:before {
+            display: table;
+            content: ' ';
+        }
+        
+        .icon-addon:after {
+            clear: both;
+        }
+        
+        .icon-addon.addon-md .glyphicon,
+        .icon-addon .glyphicon,
+        .icon-addon.addon-md .fa,
+        .icon-addon .fa {
+            position: absolute;
+            z-index: 2;
+            left: 10px;
+            font-size: 14px;
+            margin-left: -2.5px;
+            text-align: center;
+            padding: 10px 0;
+            top: 1px
+        }
+        
+        .icon-addon.addon-lg .form-control {
+            line-height: 1.33;
+            height: 30px;
+            font-size: 13px;
+            padding: 10px 16px 10px 40px;
+        }
+        
+        .icon-addon.addon-lg .fa,
+        .icon-addon.addon-lg .glyphicon {
+            font-size: 13px;
+            margin-left: 0;
+            left: 11px;
+            top: -1px;
+            color: #512e90;
+        }
+    </style>
+</head>
+
+<body ng-app='emailApp' ng-controller='emailController'>
+    <div class="wrapper">
+        <div ng-include="'mainmenu.html'"></div>
+        <div class="content-wrapper">
+            <div class="page-title">
+                <div>
+                    <h1><i class='fa fa-envelope'></i> Email</h1></div>
+              <!--   <div><a href='' data-toggle='modal' data-target='#myModalAdd' class='btn btn-primary btn-flat'><i class='fa fa-lg fa-plus'></i> <b>ADD</b></a></div> -->
+            </div>
+            <div class="modal modal-overlay" id="myModalAdd" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                       
+                            <div class="modal-header" style="background-color:#512e90;color:white">
+                                <button type="button" class="pull-right" style="background-color:#512e90;color:white;" data-dismiss="modal" >x</button>
+                                <h4 class='modal-title' style='text-align:center'>Email Details </h4> </div>
+								 <div class="modal-body">
+                            <form class="form-horizontal" style="" role="form" name="add_member">
+                               <div class='form-group'>
+                                        <div class="col-sm-6">
+                                            <label>Email Id</label>
+											<input type='email' class='form-control' ng-model='emailadd.user' />
+                                        </div> 
+										<div class="col-sm-6">
+                                            <label>Password</label>
+											<input type='password' class='form-control' ng-model='emailadd.pass' />
+                                        </div>
+                               </div>
+								<div class='form-group'>
+                                    <div class='col-sm-12'>
+										<label>Host</label>
+										<input type='text' class='form-control' ng-model='emailadd.host' />
+									</div>
+									
+								</div>
+								<div class='form-group'>
+                                     <div class='col-sm-12'>
+                                            <label>Port</label>
+                                            <input type='number' class='form-control' ng-model='emailadd.port' />
+									</div>
+									
+								</div>
+                                
+                              
+							</form>
+							 </div>
+                            <div class='modal-footer'>
+                                <div class='form-actions'>
+                                    <div class="row">
+                                        <div class="col-lg-offset-6 col-lg-4">
+                                            <input type='button' class='btn btn-primary' value='submit' ng-click='addemail()'>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       
+                    </div>
+                </div>
+            </div>
+            <div class="modal modal-overlay" id="myModalEdit" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                       
+                            <div class="modal-header nav-item">
+                                <button type="button" class="pull-right nav-item"  data-dismiss="modal" >x</button>
+                                <h4 class='modal-title' style='text-align:center'>EDIT Email Details </h4> </div>
+								 <div class="modal-body">
+                            <form role='form' class="form-horizontal" name='edit_member' ng-repeat='emailedit in getemaildata'>
+                                
+								 <div class='form-group'>
+                                        <div class="col-sm-6">
+                                            <label>Email Id</label>
+											<input type='email' class='form-control' ng-model='emailedit.user' />
+                                        </div> 
+										<div class="col-sm-6">
+                                            <label>Password</label>
+											<input type='password' class='form-control' ng-model='emailedit.pass' />
+                                        </div>
+                               </div>
+								<div class='form-group'>
+                                    <div class='col-sm-12'>
+										<label>Host</label>
+										<input type='text' class='form-control' ng-model='emailedit.host' />
+									</div>
+									
+								</div>
+								<div class='form-group'>
+                                     <div class='col-sm-12'>
+                                            <label>Port</label>
+                                            <input type='number' class='form-control' ng-model='emailedit.port' />
+									</div>
+									
+								</div>
+                              
+                               
+						</form>
+						 </div>
+                        <div class="modal-footer">
+                            <div class="form-actions">
+                                <div class="row">
+                                    <div class="col-lg-offset-6 col-lg-4">
+
+
+                                        <input type='button' class='btn btn-primary' value='submit' ng-click='editemail()'>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class='row'>
+                <div class='col-md-offset-6 col-md-3 col-xs-6'>
+                    <div class='icon-addon addon-lg'>
+                        <input type='search' ng-model='search' class='form-control input-sm w-lg inline m-r' placeholder='Search'>
+                        <label for='search' class='glyphicon glyphicon-search' rel='tooltip' title='search'></label>
+                    </div>
+                </div>
+                <div class=" col-md-3 col-xs-6">
+                    <button style='border:none;background:white;color:#512e90;' ng-disabled='currentPage == 0' class='glyphicon glyphicon-chevron-left' ng-click='currentPage=currentPage-1'></button><b>  {{currentPage+1}} / {{numberOfPages()}} </b>
+                    <input type='number' min='1' max='{{maxpage}}' ng-change='checkcurrpage(myValue)' style='width:35%' ng-model='myValue'>
+                    <button style='border:none;background:white;color:#512e90' class='glyphicon glyphicon-chevron-right' ng-disabled='currentPage >= listemaildata.length/pageSize - 1' ng-click='currentPage=currentPage+1'></button>
+                </div>
+            </div>
+
+            <div class='row'>
+                <div class='table-responsive'>
+                    <table style='font-size:14px;' class='table table-striped table-bordered'>
+                        <thead class="nav-item">
+						<th style='text-align:center'>
+						<a style='text-decoration:none;color:white'>Sr.No</a>
+						</th>
+                            <th style='text-align:center'>
+                                <a href='#' style='text-decoration:none;color:white' ng-click="sortType = 'productmaster_product'; sortReverse = !sortReverse"> <b>Email ID</b> <span ng-show="sortType= 'productmaster_product' && !sortReverse" style='font-size:10px;' class='glyphicon glyphicon-triangle-bottom'></span> <span ng-show="sortType = 'productmaster_product' && sortReverse" style='font-size:10px' class='glyphicon glyphicon-triangle-top'></span> </a>
+                            </th>
+                            <th style='text-align:center'>
+                                <a href='#' style='text-decoration:none;color:white' ng-click="sortType = 'productmaster_productcode'; sortReverse = !sortReverse"> <b>Host</b> <span ng-show="sortType= 'productmaster_productcode' && !sortReverse" style='font-size:10px;' class='glyphicon glyphicon-triangle-bottom'></span> <span ng-show="sortType = 'productmaster_productcode' && sortReverse" style='font-size:10px' class='glyphicon glyphicon-triangle-top'></span> </a>
+                            </th>
+                            <!-- <th style='text-align:center'>
+                                <a href='#' style='text-decoration:none;color:white' ng-click="sortType = 'productmaster_description'; sortReverse = !sortReverse"> <b>Description</b> <span ng-show="sortType= 'productmaster_description' && !sortReverse" style='font-size:10px;' class='glyphicon glyphicon-triangle-bottom'></span> <span ng-show="sortType = 'productmaster_description' && sortReverse" style='font-size:10px' class='glyphicon glyphicon-triangle-top'></span> </a>
+                            </th> -->
+                            <th style='text-align:center'>
+                                <a href='#' style='text-decoration:none;color:white' ng-click="sortType = 'productmaster_hsncode'; sortReverse = !sortReverse"> <b>Port</b> <span ng-show="sortType= 'productmaster_hsncode' && !sortReverse" style='font-size:10px;' class='glyphicon glyphicon-triangle-bottom'></span> <span ng-show="sortType = 'productmaster_hsncode' && sortReverse" style='font-size:10px' class='glyphicon glyphicon-triangle-top'></span> </a>
+                            </th>
+                          
+						<th style='text-align:center;'><b style='color:white'>Action</b></th>
+                        </thead>
+                        <tbody ng-init='listemail()'>
+                            <tr ng-repeat='x in listemaildata |filter:search | startFrom:currentPage*pageSize | limitTo:pageSize  | orderBy:sortType:sortReverse'>
+                                <td style='text-align:center;'>{{$index+1}}</td>
+                                <td style='text-align:center;'>{{x.user }}</td>
+                               <!--  <td style='text-align:center;'>{{productmaster.productmaster_description }}</td> -->
+                                <td style='text-align:center;'>{{x.host }}</td>
+                                <td style='text-align:center;'>{{x.port }}</td>
+                               
+
+								<td style='text-align:center;'><a href='' ng-click='getemail(x.id)' data-toggle='modal' data-target='#myModalEdit'>Edit</a> <!-- | <a href='#' ng-click='deleteemail(x.id)'>Delete</a> --></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class='col-md-12' ng-show='filteredItems == 0'>
+                    <div class='col-md-12'>
+                        <h4>No Data found</h4> </div>
+                </div>
+            </div>
+            <div id='footer' style="background-color:white;font-size:20px">&#169;2016 DEEPTRACK DATA SYSTEMS PVT LTD. All Rights Reserved</div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+$(function(){
+  $('#myDummyTable').stupidtable(); 
+});
+</script>
+</html>
